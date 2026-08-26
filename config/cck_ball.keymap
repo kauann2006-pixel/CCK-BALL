@@ -8,9 +8,11 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
-&mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
-
-&msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
+// TESTE: escaladores 2:1 removidos. Eles acumulam eventos antes de
+// repassar, e estavam nos dois caminhos (cursor e scroll) - o que casa
+// com o scroll tambem travar.
+// &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
+// &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 
 &msc {
     acceleration-exponent = <0>;      // 0
@@ -23,7 +25,9 @@
     // 0 = movimento proporcional. Era 1 (aceleracao), que matava os
     // movimentos lentos e saturava os rapidos - so a faixa media funcionava
     acceleration-exponent = <0>;
-    trigger-period-ms = <16>;
+    // 8ms em vez de 16: o sensor reporta a cada 4ms (250Hz), e um
+    // entregador de 16ms acumula 4 leituras antes de repassar
+    trigger-period-ms = <8>;
 };
 
 &soft_off { hold-time-ms = <2000>; };
