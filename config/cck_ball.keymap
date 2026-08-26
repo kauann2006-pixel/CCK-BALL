@@ -20,7 +20,9 @@
 
 &mmv {
     time-to-max-speed-ms = <500>;
-    acceleration-exponent = <1>;
+    // 0 = movimento proporcional. Era 1 (aceleracao), que matava os
+    // movimentos lentos e saturava os rapidos - so a faixa media funcionava
+    acceleration-exponent = <0>;
     trigger-period-ms = <16>;
 };
 
